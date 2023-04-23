@@ -22,7 +22,7 @@ public:
         default_random_engine eng(rd());  // seed the generator
 
         // Define the range of the random numbers
-        uniform_real_distribution<double> distr(1.0, 15.0); // random slot means betwen 1 and 15
+        uniform_real_distribution<double> distr(0.0, 5.0); // random slot means betwen 1 and 15
 
         // Generate the random numbers and add them to the vector
         for (int i = 0; i < num_slots; i++) {
@@ -36,7 +36,7 @@ public:
     int roll(int idx){
         // Create a random number generator with a normal distribution
         default_random_engine generator;
-        normal_distribution<double> distribution(0.0, 3.0);
+        normal_distribution<double> distribution(0.0, 1.0);
         double random_value = distribution(generator);
         update_vals(random_value + slot_means[idx], idx); // update internal counters
         // cout << q_val[0] << endl;

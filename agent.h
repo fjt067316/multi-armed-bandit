@@ -20,8 +20,11 @@ public:
     void run_experiment(Slots* slots, string optimizer="epsilon greedy", float epsilon=0.3, float c=0.125){ //epsilon gredy, ucb
         // if random number is less than epsilon we choose a random arm else choose the highest q arm
         double cumulative_reward=0;
+        double max_q_value = 0;
+
         for(int n=0; n < iterations; n++){
             int idx = -1;
+            max_q_value = 0;
 
             if(optimizer == "epsilon greedy"){
                 random_device rd;
@@ -31,33 +34,32 @@ public:
 
                 if (epsilon > random_number){
                     // if random number less than epsilon choose a random index
-                    uniform_real_distribution<> dis_idx(0.0, slots->size);
+                    uniform_real_distribution<> dis_idx(0.0, num_slots);
                     idx = dis_idx(gen);
                 } else {
-                    double max_q_value = INT64_MIN;
                     for(int i=0; i < num_slots; i++){
                         if(slots->q_vals[i] > max_q_value){
-                            max_q_value = slots->q_vals[i];
+                            max_q_value = slots->q_vals[i]; // issue is values are becoming negative
                             idx = i;
                         }
                     }
                 }
+
             } else {
                 // https://www.geeksforgeeks.org/upper-confidence-bound-algorithm-in-reinforcement-learning/
-                double max = INT64_MIN;
+                double max_q_value = 0;
                 // cout << num_slots << endl;
                 for(int i=0; i<num_slots; i++){
                     double candidate = slots->q_vals[i] + c * sqrt(log(n+1)/times_used[i]);
                     // cout << candidate << endl;
-                    if(candidate > max){
+                    if(candidate > max_q_value){
                         idx = i;
-                        max = candidate;
+                        max_q_value = candidate;
                         // cout << idx << endl;
 
                     }
                 }
             }
-
             assert(idx >= 0);
             // cout << idx << endl;
             double reward = slots->roll(idx);
