@@ -17,7 +17,7 @@ public:
 
     }
 
-    void run_experiment(Slots* slots, string optimizer="epsilon greedy", float epsilon=0.3, float c=0.125){ //epsilon gredy, ucb
+    void run_experiment(Slots* slots, string optimizer="ucb", float epsilon=0.3, float c=0.125){ //epsilon gredy, ucb
         // if random number is less than epsilon we choose a random arm else choose the highest q arm
         double cumulative_reward=0;
         double max_q_value = 0;

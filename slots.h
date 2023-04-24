@@ -11,7 +11,6 @@ public:
     vector<double> slot_means;
     vector<double>  q_vals;
     vector<int> times_used; // counter of times slot machiens was used
-    int size=3;
     double total_sum=0;
 
     Slots(int num_slots, vector<double> q_vals) :
@@ -22,7 +21,7 @@ public:
         default_random_engine eng(rd());  // seed the generator
 
         // Define the range of the random numbers
-        uniform_real_distribution<double> distr(0.0, 5.0); // random slot means betwen 1 and 15
+        uniform_real_distribution<double> distr(0.0, 7.0); // random slot means betwen 1 and 15
 
         // Generate the random numbers and add them to the vector
         for (int i = 0; i < num_slots; i++) {
